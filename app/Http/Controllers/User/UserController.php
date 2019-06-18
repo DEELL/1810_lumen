@@ -12,7 +12,7 @@ class UserController extends BaseController
      * 注册  Postman测试  域名zhb.lumen.com
      */
     public function reg(Request $request){
-//        header('Access-Control-Allow-Origin*');
+        header('Access-Control-Allow-Origin:*');
 //        账号
         $data=$request->input();
 //        判断确认密码和密码是否一致
@@ -46,24 +46,36 @@ class UserController extends BaseController
      */
     public  function login(Request $request){
 //        账号
-        $name=$request->input('name');
+        $data=$request->input();
 //        密码
-        $password=$request->input('password');
+//        $password=$request->input('password');
 //            先去数据查询是否有这个账号
-            $data=User::where('u_name',$name)->first();
-            if($data!=null){
+            $info=User::where(['u_name'=>$data['u_name']])->first();
+            if($info!=null){
 //                如果不是空 在查一下密码是否正确
-                $llp=User::where('u_password',$password)->first();
+                $llp=User::where(['u_password'=>$data['u_password']])->first();
                 if($llp!=null){
-                    var_dump('登录成功了，高兴不');
+                    $res=[
+                        'error'=>1,
+                        'msg'  =>'登录成功了，高兴不'
+                    ];
 //                    没有查到密码
                 }else{
-                    var_dump('密码账户错误');
+
+                    $res=[
+                        'error'=>'2',
+                        'msg'  =>'密码账户错误'
+                    ];
                 }
+                return json_encode($res);
 //                没有查到账号
             }else{
-                var_dump('密码账户错误');
+                $res=[
+                    'error'=>'2',
+                    'msg'  =>'密码账户错误'
+                ];
             }
+            return json_encode($res);
     }
     /**修改密码 Postman测试 zhb.lumen.com
      * @param Request $request
