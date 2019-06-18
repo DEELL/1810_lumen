@@ -12,7 +12,6 @@ class UserController extends BaseController
      * 注册  Postman测试  域名zhb.lumen.com
      */
     public function reg(Request $request){
-        header('Access-Control-Allow-Origin:*');
 //        账号
         $data=$request->input();
 //        判断确认密码和密码是否一致
